@@ -135,7 +135,7 @@
 		}
 
 		function log() {
-			sendMsg('log', Array.prototype.slice.apply(arguments));
+			console.log(arguments);
 		}
 
 		function setMetric(name, value, isFinal) {
