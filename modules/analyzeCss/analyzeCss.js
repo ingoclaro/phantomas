@@ -83,8 +83,17 @@ exports.module = function(phantomas) {
 
 		phantomas.runScript('node_modules/.bin/' + binary, options, function(err, results) {
 			var offenderSrc = (options[0] === '--url') ? '<' + options[1] + '>' : '[inline CSS]';
+			var isError = false;
 
-			if (err !== null) {
+			// node 4 fix
+			if (err !== null && err !== "") {
+				isError = true;
+			}
+			if(results && results["parsingErrors"] > 0) {
+				isError = true;
+			}
+
+			if (isError) {
 				phantomas.log('analyzeCss: sub-process failed!');
 
 				// report failed CSS parsing (issue #494(
